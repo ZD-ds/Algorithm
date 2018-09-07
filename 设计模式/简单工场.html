@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+	var XMLHttpFactory=function(){}
+	XMLHttpFactory.createXMLHttp=function(){
+		var XMLHttp=null;
+		if(window.XMLHttpRequest){
+			XMLHttp=new XMLHttpRequest();
+		}else if(window.ActiveXObject){
+			XMLHttp=new ActiveXObject('Microsoft.XMLHttp');
+		}
+		return XMLHttp;
+	}
+	var AjaxHttp=function(){
+		var XMLHttp=XMLHttpFactory.createXMLHttp();
+	}
+</script>
+</html>

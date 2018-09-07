@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+	var gongchnag={};
+	gongchnag.chanyifu=function(argument){
+		this.work=50;
+	}
+	gongchnag.chanxie=function(){
+		console.log("chanxie");
+	}
+	gongchnag.yunshu=function(){
+		console.log("yunshu");
+	}
+	gongchnag.director=function(para){
+		return new gongchnag[para]();
+	}
+	var me=gongchnag.director('chanxie');
+
+	
+</script>
+</html>
