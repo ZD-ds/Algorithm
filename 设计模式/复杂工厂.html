@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+	var XMLHttpFactory=function(){
+
+	}
+	XMLHttpFactory.prototype={
+		createFactory:function(){
+			throw new Error('this is abstract class');
+		}
+	}
+	var XHRHandler=function(){
+		XMLHttpFactory.call(this);
+	}
+	XHRHandler.prototype=new XMLHttpFactory();
+	XHRHandler.prototype.constructor=XHRHandler;
+	XHRHandler.prototype.createFactory=function(){
+		var XMLHttp=null;
+		if(window.XMLHttpRequest){
+			XMLHttp=new XMLHttpRequest();
+		}
+		else if(window.ActiveXObject){
+			XMLHttp=new ActiveXObject('Microsoft Http');
+		}
+		return XMLHttp;
+	}
+</script>
+</html>
