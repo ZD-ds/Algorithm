@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+	function(){
+		this.test=function(){
+			console.log('test');
+		}
+	}
+	pp.prototype.gogo=function(first_arg){
+		console.log('newgogo');
+	}
+	function shipiqi(){
+		var s=new pp;
+		var aa={
+			test:function(){
+				s.test();
+			}
+			go:function(){
+				s.go();
+			}
+		}
+		return aa;
+	}
+	var aa=shipiqi();
+	aa.go();
+</script>
+</html>
