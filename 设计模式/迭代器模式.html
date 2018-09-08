@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+	var arr=[1,4,4,5,6,7,8];
+	var diedai=(function(){
+		var length=arr.length;
+		var index=0;
+		return {
+			hasNext:function(){
+				return index<length;
+			}
+			next:function(){
+				var data=arr[index];
+				index++;
+				return data;
+			}
+		}
+	})();
+	while(diedai.hasNext()){
+		console.log(diedai.next());
+	}	
+</script>
+</html>
