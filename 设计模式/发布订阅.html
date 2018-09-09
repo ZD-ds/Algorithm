@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    //发布订阅模式又叫观察者模式，定义对象的一种对多的依赖关系，当一个对向的状态
+    //例子
+    (function($){
+        var o=$({});
+        $.subscribe=function(){
+            o.on.apply(o,arguments)
+        }
+        $.unsubscribe=function(){
+            o.off.apply(o,arguments)
+        }
+        $.publish=function(){
+            o.trigger.apply(o.arguments);
+        }
+    })(jQuery);
+</script>
+</html>

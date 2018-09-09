@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    //职责链模式
+    //使多个对象都有机会处理请求，从而避免请求的发送者和接受者之间的耦合关系，将这些关系连成一条链，沿着该链传请求，直到一个对象处理为止    
+    var fn1=function(data){
+        if(data==1){
+            console.log('fn1->'+data);
+        }else{
+            return "next";
+        }
+    }
+    var fn2=function(data){
+        console.log('fn2->'+data);
+        return "next"
+    }
+    var fn3=function(data){
+        console.log('fn3->'+data);
+        console.log('done');
+    }
+    Function.prototype.after=function(fn){
+        var self=this;
+        return function(){
+            var ret=self.apply(this,arguments);
+            if(ret=="next"){
+                return fn.apply(this,arguments);
+            }
+            return ret;
+        }
+    }
+    var order=fn1.after(fn2).after(fn3);
+    order(1);
+</script>
+</html>
