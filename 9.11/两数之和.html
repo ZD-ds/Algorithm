@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+     给定一个整数数组和一个目标值，找出数组中和为目标值的两个数。
+     你可以假设每个输入只对应一种答案，且同样的元素不能被重复利用。
+    
+    示例:
+    
+    给定 nums = [2, 7, 11, 15], target = 9
+    
+    因为 nums[0] + nums[1] = 2 + 7 = 9
+    所以返回 [0, 1]
+    */
+
+    /**
+     * @param {number[]} nums
+     * @param {number} target
+     * @return {number[]}
+     */
+    var twoSum = function (nums, target) {
+        var value = 0;
+        for (var i = 0; i <= nums.length - 1; i++) {
+            value = target - nums[i];
+            for (var j = i + 1; j <= nums.length - 1; j++) {
+                if (nums[j] == value) {
+                    return [i, j];
+                }
+            }
+        }
+        return [];
+    };
+    console.log(twoSum([3, 3], 6));
+
+    // 用对象的 hash来查找的效率会比数组便利高很多 所以这里就相当于利用了缓存的思想
+    var twoSum = function (nums, target) {
+        var len = nums.length;
+        var numObj = {};
+        for (var i = 0; i < len; i++) {
+            var current = nums[i];
+            var match = target - current;
+            if (match in numObj) {
+                return [i, numObj[match]]
+            } else {
+                numObj[current] = i;
+            }
+        }
+    };
+</script>
+
+</html>
