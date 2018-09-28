@@ -121,7 +121,40 @@
     nums.insert(21);
     nums.insert(46);
     nums.insert(31);
-    nums.inOrder(nums.root);
+
+    function DFS(node) {
+        if (!(node == null)) {
+            inOrder(node.left);
+            console.log(node.data);
+            inOrder(node.right);
+        }
+    }
+    function BFS(node) {
+        var temp = [node];
+        var arr = [];
+        while (temp.length != 0) {
+            arr = arr.concat(temp);
+            console.log(arr);
+            var length = temp.length;
+            var childarr = [];
+            for (var i = 0; i <= length - 1; i++) {
+                if (temp[i].left != null) {
+                    childarr.push(temp[i].left);
+                }
+                if (temp[i].right != null) {
+                    childarr.push(temp[i].right);
+                }
+            }
+            temp = childarr;
+        }
+        arr.forEach(function (item) {
+            console.log(item.data);
+        });
+
+    }
+    console.log(nums.root);
+
+    BFS(nums.root);
 </script>
 
 </html>
