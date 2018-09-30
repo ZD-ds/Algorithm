@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+    编写一个函数来查找字符串数组中的最长公共前缀。
+    
+    如果不存在公共前缀，返回空字符串 ""。
+    
+    示例 1:
+    
+    输入: ["flower","flow","flight"]
+    输出: "fl"
+    示例 2:
+    
+    输入: ["dog","racecar","car"]
+    输出: ""
+    解释: 输入不存在公共前缀。
+    说明:
+    
+    所有输入只包含小写字母 a-z 。
+    */
+
+    /**
+     * @param {string[]} strs
+     * @return {string}
+     */
+    var longestCommonPrefix = function (strs) {
+        if (strs.length == 0) {
+            return '';
+        }
+        var index = 0;
+        var max = strs[0].length;
+
+        for (var i = 1; i < strs.length; i++) {
+            max = Math.min(strs[i].length, max);
+        }
+        if (max == 0) {
+            return '';
+        }
+        outer: while (index < max) {
+            prev = strs[0][index];
+            for (var i = 1; i < strs.length; i++) {
+                if (strs[i][index] && strs[i][index] == prev) {
+                    prev = strs[i][index];
+                } else {
+                    break outer;
+                }
+            }
+            index++;
+        }
+        return strs[0].slice(0, index);
+    }
+    console.log(longestCommonPrefix(["", "", "", "12391111", "12"]));
+
+</script>
+<script>
+    /**
+     * @param {string[]} strs
+     * @return {string}
+     */
+    var longestCommonPrefix = function (strs) {
+        if (strs.length == 0) return "";
+        let prefix = strs[0];
+        for (let i = 1; i < strs.length; i++)
+            while (strs[i].indexOf(prefix) != 0) {
+                prefix = prefix.substring(0, prefix.length - 1);
+                if (prefix.length == 0) return "";
+            }
+        return prefix;
+    };
+</script>
+
+</html>

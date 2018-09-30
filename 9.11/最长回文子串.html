@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /*给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为1000。
+
+示例 1：
+
+输入: "babad"
+输出: "bab"
+注意: "aba"也是一个有效答案。
+示例 2：
+
+输入: "cbbd"
+输出: "bb"
+*/
+    /**
+     * @param {string} s
+     * @return {string}
+     */
+
+    //------------------------------------------------------------超时----------------------------------------------------------------------------
+    var longestPalindrome = function (s) {
+        var arr = s.split('');
+        var length = arr.length;
+        if (length < 2) {
+            return s;
+        }
+        var max = 0;
+        var maxstr = [];
+        for (var j = 0; j <= length - 1; j++) {
+            var tempmax = 0;
+            var tempmaxstr = [];
+            for (var k = length - 1; k >= j + 1; k--) {
+
+
+                if (discharge(arr, j, k)) {
+                    if (tempmax <= discharge(arr, j, k)) {
+                        tempmax = discharge(arr, j, k);
+                        for (var l = j; l <= k; l++) {
+                            tempmaxstr.push(arr[l]);
+                        }
+                    }
+                }
+            }
+            if (tempmax > max) {
+                max = tempmax;
+                maxstr = tempmaxstr;
+            }
+
+        }
+        if (max < 1) {
+            return arr[0];
+        }
+        return maxstr.join('');
+    }
+    function discharge(arr, start, end) {
+        var length = (end - start + 1);
+        var mid = Math.floor((end + start) / 2);
+        for (var i = end; i >= mid; i--) {
+            if (arr[start + end - i] == arr[i]) {
+                continue;
+            }
+            else {
+                return false;
+            }
+        }
+        return length;
+    }
+
+    console.log(longestPalindrome("babad"));
+
+    //---------------------------------------------------------------------第二种方法--------------------------------------------------
+    function longestPalindrome2(s) {
+        var s = s.split('');
+        if (s.length == 0) return "";
+        if (s.length == 1) return s.join('');
+        var start = 0, maxlength = 1;//记录最大回文子串的起始位置以及长度
+        for (var i = 0; i < s.length; i++)
+            for (var j = i + 1; j < s.length; j++)//从当前位置的下一个开始算
+            {
+                var temp1, temp2;
+                for (temp1 = i, temp2 = j; temp1 < temp2; temp1++ , temp2--) {
+                    if (s[temp1] != s[temp2])
+                        break;
+                }
+                if (temp1 >= temp2 && j - i + 1 > maxlength)//这里要注意条件为temp1>=temp2，因为如果是偶数个字符，相邻的两个经上一步会出现大于的情况
+                {
+                    maxlength = j - i + 1;
+                    start = i;
+                }
+            }
+        var s = s.slice(start, start + maxlength);
+        return s.join('');//利用string中的substr函数来返回相应的子串,第一个参数是起始位置，第二个参数是字符个数
+    }
+    //--------------------------------------------------动态规划------------------https://www.cnblogs.com/mini-coconut/p/9074315.html
+    function longestPalindrome(s) {
+        var s = s.split('');
+        if (s.length == 0) return "";
+        if (s.length == 1) return s.join('');
+        var longest = 1;
+        var start = 1;
+        for (var i = 0; i < len; i++) {
+
+        }
+        return s.substr(start, longest);
+    }
+</script>
+
+</html>
