@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+
+    /**
+    给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。
+    
+    注意：答案中不可以包含重复的三元组。
+    
+    例如, 给定数组 nums = [-1, 0, 1, 2, -1, -4]，
+    
+    满足要求的三元组集合为：
+    [
+      [-1, 0, 1],
+      [-1, -1, 2]
+    ]
+    */
+    /**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+    function uniq(array) {
+        array = qSort(array);
+        var temp = [array[0]];
+        for (var i = 1; i < array.length; i++) {
+            if (array[i] !== temp[temp.length - 1]) {
+                temp.push(array[i]);
+            }
+        }
+        return temp;
+    }
+    function qSort(list) {
+        if (list.length == 0) {
+            return [];
+        }
+        var pivot = list[0];
+        var lesser = [];
+        var greater = [];
+        for (var i = 1; i < list.length; i++) {
+            if (list[i] < pivot) {
+                lesser.push(list[i]);
+            } else {
+                greater.push(list[i]);
+            }
+        }
+        return qSort(lesser).concat(pivot, qSort(greater));
+    }
+    //超时间
+    var threeSum = function (nums) {
+        nums = qSort(nums);
+        var arr = [];
+        for (var i = 0; i <= nums.length - 1; i++) {
+            var temp = [];
+            for (var j = i + 1; j <= nums.length - 1; j++) {
+                for (var k = j + 1; k <= nums.length - 1; k++) {
+                    if (nums[i] + nums[j] + nums[k] == 0) {
+                        temp = [nums[i], nums[j], nums[k]];
+                        arr.push(temp);
+                    }
+                }
+            }
+        }
+        for (var i = 0; i <= arr.length - 1; i++) {
+            if (arr[i].length == 0) {
+                continue;
+            }
+            for (var j = i + 1; j <= arr.length - 1; j++) {
+                if (JSON.stringify(arr[i]) == JSON.stringify(arr[j])) {
+                    arr[j] = [];
+                }
+            }
+        }
+        arr = arr.filter(function (item) {
+            return item.length == 0 ? false : true;
+        });
+        return arr;
+    };
+    //https://segmentfault.com/a/1190000004185411
+    var threeSum2 = function (nums) {
+        var result = [];
+        nums = qSort(nums);
+
+        var n = nums.length;
+        for (var i = 0; i < n - 2; ++i) {
+            if (i > 0 && nums[i - 1] == nums[i]) {
+                continue;
+            }
+            var j = i + 1;
+            var k = n - 1;
+            while (j < k) {
+                if (nums[i] + nums[j] + nums[k] < 0) {
+                    while (j < k && (nums[j] == nums[j + 1])) {
+                        j++;
+                    }
+                    j++;
+                } else if (nums[i] + nums[j] + nums[k] > 0) {
+                    while (k > j && (nums[k] == nums[k - 1])) {
+                        k--;
+                    }
+                    k--;
+                } else {
+                    result.push([nums[i], nums[j], nums[k]]);
+                    while (j < k && (nums[j] == nums[j + 1])) {
+                        j++;
+                    }
+                    while (k > j && (nums[k] == nums[k - 1])) {
+                        k--;
+                    }
+                    j++;
+                    k--;
+                }
+            }
+        }
+        return result;
+    }
+    console.log(threeSum2([-1, 0, 1, 2, -1, -4]));
+
+
+    //最快
+    var threeSum = function (nums) {
+        nums.sort(function (a, b) {
+            return a - b
+        })
+        let ans = []
+        for (let i = 0; i < nums.length; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue
+            }
+            let j = i + 1, k = nums.length - 1
+            let target = -nums[i]
+            while (j < k) {
+                if (nums[j] + nums[k] == target) {
+                    ans.push([nums[i], nums[j], nums[k]])
+                    j++
+                    k--
+                    while (j < k && nums[j] == nums[j - 1]) j++
+                    while (j < k && nums[k] == nums[k + 1]) k--
+                } else if (nums[j] + nums[k] > target) {
+                    k--
+                } else {
+                    j++
+                }
+            }
+        }
+        return ans
+    };
+</script>
+
+</html>

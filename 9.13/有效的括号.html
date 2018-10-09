@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+      
+  给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。
+  
+  有效字符串需满足：
+  
+  左括号必须用相同类型的右括号闭合。
+  左括号必须以正确的顺序闭合。
+  注意空字符串可被认为是有效字符串。
+  
+  示例 1:
+  
+  输入: "()"
+  输出: true
+  示例 2:
+  
+  输入: "()[]{}"
+  输出: true
+  示例 3:
+  
+  输入: "(]"
+  输出: false
+  示例 4:
+  
+  输入: "([)]"
+  输出: false
+  示例 5:
+  
+  输入: "{[]}"
+  输出: true
+    */
+    /**
+   * @param {string} s
+   * @return {boolean}
+   */
+    var isValid = function (s) {
+        var heap = [],
+            index = -1,
+            length = s.length;
+        while (++index < length) {
+            if (s[index] == "]" && heap[heap.length - 1] == "[") {
+                heap.pop();
+                continue;
+            }
+            if (s[index] == ")" && heap[heap.length - 1] == "(") {
+                heap.pop(); continue;
+            }
+            if (s[index] == "}" && heap[heap.length - 1] == "{") {
+                heap.pop(); continue;
+            }
+            if (s[index] == "[" || s[index] == "(" || s[index] == "{") {
+                heap.push(s[index]); continue;
+            }
+            return false;
+        }
+        return heap.length == 0 ? true : false;
+    };
+    //这是最优解
+    let arr = [];
+    for (var char of s) {
+        if (char === '(' || char === '[' || char === '{') {
+            arr.unshift(char)
+        } else {
+            let popStr = arr.shift();
+            if (!popStr
+                || popStr === '(' && char !== ')'
+                || popStr === '[' && char !== ']'
+                || popStr === '{' && char !== '}') {
+                return false;
+            }
+        }
+    }
+    return !arr.length;
+</script>
+
+</html>

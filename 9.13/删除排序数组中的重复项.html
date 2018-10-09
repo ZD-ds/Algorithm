@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+     * @param {number[]} nums
+     * @return {number}
+     */
+    var removeDuplicates = function (nums) {
+        //使用压缩算法
+        var h = nums.length - 1;//水桶高度
+        for (var i = nums.length - 1; i > 0; i--) {
+            if (nums[i] == nums[i - 1]) {
+                for (var j = i; j <= h; j++) {
+                    nums[j - 1] = nums[j]
+                }
+                h -= 1;
+            }
+        }
+
+
+        return h + 1;
+
+    };
+    //最优解
+    var removeDuplicates = function (nums) {
+        if (nums.length == 0 || nums.length == 1) return nums.length;
+        var len = 0, num = nums[0];
+        for (var i = 0; i < nums.length; i++) {
+            if (i == 0) {
+                len++;
+                continue;
+            }
+
+            if (nums[i] == num) continue;
+            else {
+                if (i != len) nums[len] = nums[i];
+                len++;
+                num = nums[i];
+            }
+
+
+        }
+        return len;
+    };
+</script>
+
+</html>
