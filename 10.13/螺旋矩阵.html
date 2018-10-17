@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+        给定一个包含 m x n 个元素的矩阵（m 行, n 列），请按照顺时针螺旋顺序，返回矩阵中的所有元素。
+
+示例 1:
+
+输入:
+[
+ [ 1, 2, 3 ],
+ [ 4, 5, 6 ],
+ [ 7, 8, 9 ]
+]
+输出: [1,2,3,6,9,8,7,4,5]
+示例 2:
+
+输入:
+[
+  [1, 2, 3, 4],
+  [5, 6, 7, 8],
+  [9,10,11,12]
+]
+输出: [1,2,3,4,8,12,11,10,9,5,6,7]
+    */
+    /**
+ * @param {number[][]} matrix
+ * @return {number[]}
+ */
+    // var spiralOrder = function (matrix) {
+    //     var cols = matrix[0].length;
+    //     var span = matrix.length;
+    //     var lefttop = [0, 0];
+    //     var righttop = [0, cols - 1];
+    //     var rightbottom = [span - 1, cols - 1];
+    //     var leftbottom = [span - 1, 0];
+    //     var res = [];
+    //     var status = "right";
+    //     var i = 0, j = 0;
+    //     while (true) {
+    //         if ((lefttop[0] == righttop[0] == rightbottom[0] == leftbottom[0]) && (lefttop[1] == righttop[1] == rightbottom[1] == leftbottom[1])) {
+    //             res.push(matrix[i][j]);
+    //             break;
+    //         }
+    //         console.log(i, j);
+
+    //         res.push(matrix[i][j]);
+    //         if (i == lefttop[0] && j == lefttop[1]) {
+    //             lefttop[0] += 1;
+    //             lefttop[1] += 1;
+    //             status = "right";
+    //         }
+    //         if (i == righttop[0] && j == righttop[1]) {
+    //             righttop[0] += 1;
+    //             righttop[1] -= 1;
+    //             status = "bottom";
+    //         }
+    //         if (i == rightbottom[0] && j == rightbottom[1]) {
+    //             rightbottom[0] -= 1;
+    //             rightbottom[1] -= 1;
+    //             status = "left";
+    //         }
+    //         if (i == leftbottom[0] && j == leftbottom[1]) {
+    //             leftbottom[0] -= 1;
+    //             leftbottom[1] += 1;
+    //             status = "top";
+    //         }
+    //         switch (status) {
+    //             case "right": j++; break;
+    //             case "bottom": i++; break;
+    //             case "left": j--; break;
+    //             case "top": i--;
+    //         }
+    //     }
+    //     return res;
+    // };
+    var spiralOrder = function (matrix) {
+        if (matrix.length == 0) {
+            return [];
+        }
+        var cols = matrix[0].length;
+        var span = matrix.length;
+        var leftborder = -1;
+        var topborder = -1;
+        var rightborder = cols;
+        var bottomborder = span;
+        var i = 0;
+        var j = 0;
+        var status = "right";
+        var res = [];
+        var timer = 0;
+        for (var k = 0; k < matrix.length; k++) {
+            for (var m = 0; m < matrix[k].length; m++) {
+                timer++;
+            }
+        }
+
+        while (true) {
+            res.push(matrix[i][j]);
+            timer--;
+            if (timer == 0) {
+                break;
+            }
+            if ((status == "right") && (j < rightborder) && (j + 1 != rightborder)) {
+                j++; continue;
+            } else if ((status == "right") && (j + 1 == rightborder)) {
+                i++; status = "bottom"; topborder += 1; continue;
+            }
+
+            if ((status == "bottom") && (i < bottomborder) && (i + 1 != bottomborder)) {
+                i++;
+                continue;
+            } else if ((status == "bottom") && (i + 1 == bottomborder)) {
+                j--; status = "left"; rightborder -= 1; continue;
+            }
+
+            if ((status == "left") && (j > leftborder) && (j - 1 != leftborder)) {
+                j--; continue;
+            } else if ((status == "left") && (j - 1 == leftborder)) {
+                i--; status = "top"; bottomborder -= 1; continue;
+            }
+
+            if ((status == "top") && (i > topborder) && (i - 1 != topborder)) {
+                i--; continue;
+            } else if ((status == "top") && (i - 1 == topborder)) {
+                j++; status = "right"; leftborder += 1; continue;
+            }
+
+        }
+
+        return res;
+    };
+    spiralOrder([
+        [1, 2, 3, 4],
+        [5, 6, 7, 8],
+        [9, 10, 11, 12],
+        [3, 5, 4, 6]
+    ]);
+    //这个是最优秀的解决
+    var spiralOrder = function (matrix) {
+        let result = [];
+        if (matrix.length === 0) {
+            return result;
+        }
+        let size = matrix.length * matrix[0].length;
+        let k;
+        let i = 0;
+        let j = 0;
+        let mStart = -1;
+        let mEnd = matrix.length;
+        let nStart = -1;
+        let nEnd = matrix[0].length;
+
+        while (true) {
+            while (j < nEnd) {
+                result.push(matrix[i][j]);
+                j++;
+            }
+            if (j === nEnd) {
+                mStart++;
+                i++;
+                j--;
+            }
+            while (i < mEnd) {
+                result.push(matrix[i][j]);
+                i++;
+            }
+            if (i === mEnd) {
+                nEnd--;
+                i--;
+                j--;
+            }
+            while (j > nStart) {
+                result.push(matrix[i][j]);
+                j--;
+            }
+            if (j === nStart) {
+                mEnd--;
+                j++;
+                i--;
+            }
+            while (i > mStart) {
+                result.push(matrix[i][j]);
+                i--;
+            }
+            if (i === mStart) {
+                nStart++;
+                i++;
+                j++;
+            }
+            if (result.length >= size) {
+                break;
+            }
+        }
+        if (result.length > size) {
+            result.splice(size, result.length - size);
+        }
+        return result;
+    };
+</script>
+
+</html>

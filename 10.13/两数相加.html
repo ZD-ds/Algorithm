@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+    给定两个非空链表来表示两个非负整数。位数按照逆序方式存储，它们的每个节点只存储单个数字。将两数相加返回一个新的链表。
+    
+    你可以假设除了数字 0 之外，这两个数字都不会以零开头。
+    
+    示例：
+    
+    输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
+    输出：7 -> 0 -> 8
+    原因：342 + 465 = 807
+    */
+    /**
+     * Definition for singly-linked list.
+     * function ListNode(val) {
+     *     this.val = val;
+     *     this.next = null;
+     * }
+     */
+    /**
+     * @param {ListNode} l1
+     * @param {ListNode} l2
+     * @return {ListNode}
+     */
+    function ListNode(val) {
+        this.val = val;
+        this.next = null;
+    }
+    //var addTwoNumbers = function (l1, l2) {
+    // var result1 = [];
+    // var result2 = [];
+    // var prev = l1;
+    // while (true) {
+    //     result1.push(prev.val);
+    //     if (!prev.next) {
+    //         break;
+    //     }
+    //     prev = prev.next;
+    // }
+    // prev = l2;
+    // while (true) {
+    //     result2.push(prev.val);
+    //     if (!prev.next) {
+    //         break;
+    //     }
+    //     prev = prev.next;
+    // }
+    // var sum = (parseInt(result1.reverse().join(""))) + (parseInt(result2.reverse().join(""))) + "";
+    // console.log(sum);
+
+    // var index = sum.length;
+    // var oldNode = null;
+    // var header = null;
+    // while (--index >= 0) {
+    //     if (oldNode == null) {
+    //         oldNode = new ListNode(parseInt(sum[index]));
+    //         header = oldNode;
+    //         continue;
+    //     }
+    //     oldNode.next = new ListNode(parseInt(sum[index]));
+    //     oldNode = oldNode.next;
+    // }
+    // return header;
+    // };
+    var list1 = new ListNode(1);
+    var list2 = new ListNode(2);
+    var list3 = new ListNode(3);
+    list1.next = list2;
+    list2.next = list3;
+    var addTwoNumbers = function (l1, l2) {
+        var add = 0,
+            a1 = l1, //第一条链的指针
+            a2 = l2;//第二条练的指针
+        var a3header = new ListNode(0);
+        var a3 = a3header;
+        var prevIndex = null;
+        while (true) {
+            if (a1 && a2) {
+                a3.val = (a1.val + a2.val + add) % 10;
+                add = Math.floor((a1.val + a2.val + add) / 10);
+                a1 = a1.next;
+                a2 = a2.next;
+                var temp = new ListNode(0);
+                a3.next = temp;
+                prevIndex = a3;
+                a3 = a3.next;
+                continue;
+            }
+            if (!a1 && a2) {
+
+                a3.val = (a2.val + add) % 10;
+                add = Math.floor((a2.val + add) / 10);
+                a2 = a2.next;
+                var temp = new ListNode(0);
+                a3.next = temp;
+                prevIndex = a3;
+                a3 = a3.next;
+                continue;
+            }
+            if (!a2 && a1) {
+                a3.val = (a1.val + add) % 10;
+                add = Math.floor((a1.val + add) / 10);
+                a1 = a1.next;
+                var temp = new ListNode(0);
+                a3.next = temp;
+                prevIndex = a3;
+                a3 = a3.next;
+                continue;
+            }
+            if (!a2 && !a1) {
+                if (add != 0) {
+                    a3.val = add;
+                    break;
+                } else {
+                    prevIndex.next = null;
+                    break;
+                }
+            }
+        }
+
+        return a3header;
+    };
+
+    console.log(addTwoNumbers(list1, list2));
+    //我上面的数字出错了，因为大数问题
+    /**
+  * Definition for singly-linked list.
+  * function ListNode(val) {
+  *     this.val = val;
+  *     this.next = null;
+  * }
+  */
+    /**
+     * @param {ListNode} l1
+     * @param {ListNode} l2
+     * @return {ListNode}
+     */
+    //这个是最快速的算法
+    var addTwoNumbers = function (l1, l2) {
+        var temp = [], q1 = l1, q2 = l2, extra = 0
+
+        while (q1 || q2) {
+            var sum = (q1 ? q1.val : 0) + (q2 ? q2.val : 0) + extra
+            extra = 0
+            if (sum >= 10) {
+                extra = 1
+                sum = sum - 10
+            }
+            temp.push(sum)
+
+            q1 = q1 && q1.next
+            q2 = q2 && q2.next
+        }
+
+        if (extra) {
+            temp.push(extra)
+        }
+
+        return temp
+    };
+
+</script>
+
+</html>

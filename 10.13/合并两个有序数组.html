@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+    给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。
+    
+    说明:
+    
+    初始化 nums1 和 nums2 的元素数量分别为 m 和 n。
+    你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
+    */
+    //68毫秒
+    var merge = function (nums1, m, nums2, n) {
+        var result = [], i = 0, j = 0;
+        while (true) {
+            if (nums1[i] <= nums2[j] && i < m) {
+                result.push(nums1[i]);
+                i++;
+            } else if (nums1[i] > nums2[j] && j < n) {
+                result.push(nums2[j]);
+                j++;
+            } else if (i >= m && j < n) {
+                result.push(nums2[j]);
+                j++;
+            } else if (j >= n && i < m) {
+                result.push(nums1[i]);
+                i++;
+            } else {
+                break;
+            }
+        }
+
+        result.forEach(function (item, index) {
+            nums1[index] = item;
+        });
+        return nums1;
+    };
+    console.log(merge([1, 2, 4, 5, 6, 0], 5, [3], 1));
+    //这是最优的50毫秒
+    var merge = function (nums1, m, nums2, n) {
+        let len = nums1.length - 1;
+        let i = m - 1;
+        let j = n - 1;
+        while (j >= 0) {
+            if (i < 0 || nums1[i] <= nums2[j]) {
+                nums1[len] = nums2[j];
+                nums2[j] = 0;
+                --j;
+                --len;
+            } else if (nums1[i] > nums2[j]) {
+                nums1[len] = nums1[i];
+                nums1[i] = 0;
+                --i;
+                --len;
+            }
+        }
+    };
+</script>
+
+</html>

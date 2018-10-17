@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+    螺旋矩阵 II
+    给定一个正整数 n，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的正方形矩阵。
+    
+    示例:
+    
+    输入: 3
+    输出:
+    [
+     [ 1, 2, 3 ],
+     [ 8, 9, 4 ],
+     [ 7, 6, 5 ]
+    ]
+    */
+    /**
+     * @param {number} n
+     * @return {number[][]}
+     */
+    var generateMatrix = function (n) {
+        if (n == 0) {
+            return [0];
+        }
+        var cols = n;
+        var span = n;
+        var leftborder = -1;
+        var topborder = -1;
+        var rightborder = cols;
+        var bottomborder = span;
+        var i = 0;
+        var j = 0;
+        var status = "right";
+
+        var res = [];
+        for (var k = 0; k < n; k++) {
+            res.push([]);
+        }
+        var timer = 0;
+        while (true) {
+            timer++;
+
+            res[i][j] = timer;
+            if (timer >= n * n) {
+                break;
+            }
+            if ((status == "right") && (j < rightborder) && (j + 1 != rightborder)) {
+                j++; continue;
+            } else if ((status == "right") && (j + 1 == rightborder)) {
+                i++; status = "bottom"; topborder += 1; continue;
+            }
+
+            if ((status == "bottom") && (i < bottomborder) && (i + 1 != bottomborder)) {
+                i++;
+                continue;
+            } else if ((status == "bottom") && (i + 1 == bottomborder)) {
+                j--; status = "left"; rightborder -= 1; continue;
+            }
+
+            if ((status == "left") && (j > leftborder) && (j - 1 != leftborder)) {
+                j--; continue;
+            } else if ((status == "left") && (j - 1 == leftborder)) {
+                i--; status = "top"; bottomborder -= 1; continue;
+            }
+
+            if ((status == "top") && (i > topborder) && (i - 1 != topborder)) {
+                i--; continue;
+            } else if ((status == "top") && (i - 1 == topborder)) {
+                j++; status = "right"; leftborder += 1; continue;
+            }
+
+        }
+
+        return res;
+    };
+    console.log(generateMatrix(3));
+
+</script>
+
+</html>
