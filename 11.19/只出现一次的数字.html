@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+        给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
+
+说明：
+
+你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？
+
+示例 1:
+
+输入: [2,2,1]
+输出: 1
+示例 2:
+
+输入: [4,1,2,1,2]
+输出: 4
+    */
+    /**
+ * @param {number[]} nums
+ * @return {number}
+ */
+    var mergeSort = function (nums, start, end) {
+        if (end == start) { return [nums[start]] }
+        var result = [];
+        var might = Math.floor((end + start) / 2);
+        var pre = mergeSort(nums, start, might);
+        var next = mergeSort(nums, might + 1, end);
+        var i = 0, j = 0, k = 0;
+        while (true) {
+            if ((i > pre.length - 1) && (j > next.length - 1)) {
+                break;
+            } else if ((i > pre.length - 1) && (j <= next.length - 1)) {
+                result[k] = next[j];
+                j++;
+                k++;
+            } else if ((i <= pre.length - 1) && (j > next.length - 1)) {
+                result[k] = pre[i];
+                i++;
+                k++;
+            } else {
+                if (pre[i] <= next[j]) {
+                    result[k] = pre[i];
+                    i++;
+                    k++;
+                } else {
+                    result[k] = next[j];
+                    j++;
+                    k++;
+                }
+            }
+        }
+        return result;
+    }
+    var singleNumber = function (nums) {
+        nums = mergeSort(nums, 0, nums.length - 1);
+        for (var i = 0; i < nums.length; i++) {
+            if (i == 0 && nums[i] != nums[i + 1]) {
+                return nums[i];
+            }
+            if ((i == nums.length - 1) && (nums[i] != nums[i - 1])) {
+                return nums[i];
+            }
+            if ((nums[i] != nums[i - 1]) && (nums[i] != nums[i + 1])) {
+                return nums[i];
+            }
+        }
+        return false;
+    };
+    console.log(singleNumber([8, 8, 8, 9, 5, 5, 9, 10, 11, 11]));
+
+    //这是最快的的算法，使用异或
+    var singleNumber = function (nums) {
+        let init = 0
+        nums.forEach(d => {
+            init ^= d
+        })
+        return init
+    };
+</script>
+
+</html>
