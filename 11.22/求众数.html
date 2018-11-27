@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+        给定一个大小为 n 的数组，找到其中的众数。众数是指在数组中出现次数大于 ⌊ n/2 ⌋ 的元素。
+
+你可以假设数组是非空的，并且给定的数组总是存在众数。
+
+示例 1:
+
+输入: [3,2,3]
+输出: 3
+示例 2:
+
+输入: [2,2,1,1,1,2,2]
+输出: 2
+    */
+    /**
+ * @param {number[]} nums
+ * @return {number}
+ */
+    // //上面是错误的，没有考虑负数和比数大于9的数
+    // var majorityElement = function (nums) {
+    //     var result = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    //     for (var i = 0; i < nums.length; i++) {
+    //         result[nums[i]] += 1;
+    //     }
+    //     var max = result[0];
+    //     var maxIndex = 0;
+    //     i = 1;
+    //     for (; i < result.length; i++) {
+    //         if (max < result[i]) {
+    //             max = result[i];
+    //             maxIndex = i;
+    //         }
+    //     }
+    //     return maxIndex;
+    // };
+    // console.log(majorityElement([3, 2, 3]));
+
+    /**
+ * @param {number[]} nums
+ * @return {number}
+ */
+
+    // var majorityElement = function (nums) {
+    //     var cache = {};
+    //     for (var i = 0; i < nums.length; i++) {
+    //         if (cache[`${nums[i]}`] != undefined) {
+    //             cache[`${nums[i]}`] = cache[`${nums[i]}`] + 1;
+    //         } else {
+    //             cache[nums[i]] = 1;
+    //         }
+    //     }
+    //     var max = 0;
+    //     var maxKey = 0;
+    //     for (var key in cache) {
+    //         if (max < cache[key]) {
+    //             max = cache[key];
+    //             maxKey = key;
+    //         }
+    //     }
+    //     return maxKey - 0;
+    // };
+
+    //这是最快的代码
+    let majorityElement = function (nums) {
+        let count = 0;
+        let candidate = 0;
+        for (let num of nums) {
+            if (count === 0) {
+                candidate = num;
+            }
+            count = candidate === num ? count + 1 : count - 1;
+        }
+        return candidate;
+    };
+    console.log(majorityElement([3, 3, 4, 5]));
+</script>
+
+
+</html>
