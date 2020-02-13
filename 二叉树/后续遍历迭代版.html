@@ -1,0 +1,70 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-02-13 14:57:37
+ * @LastEditTime : 2020-02-13 16:34:52
+ * @LastEditors  : Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \二叉树\后续遍历迭代版.html
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+ 给定一个二叉树，返回它的 后序 遍历。
+ 
+ 示例:
+ 
+ 输入: [1,null,2,3]  
+    1
+     \
+      2
+     /
+    3 
+ 
+ 输出: [3,2,1]
+ 进阶: 递归算法很简单，你可以通过迭代算法完成吗？
+ */
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val) {
+     *     this.val = val;
+     *     this.left = this.right = null;
+     * }
+     */
+    /**
+     * @param {TreeNode} root
+     * @return {number[]}
+     */
+    var postorderTraversal = function (root) {
+        if (!root) {
+            return [];
+        }
+        const stack = [root];
+        const result = [];
+        let node = root;
+        while (stack.length > 0) {
+            node = stack.pop();
+            result.unshift(node.val);
+
+            if (node.left) {
+                stack.push(node.left);
+            }
+            if (node.right) {
+                stack.push(node.right);
+            }
+        }
+        return result;
+    };
+</script>
+
+</html>
