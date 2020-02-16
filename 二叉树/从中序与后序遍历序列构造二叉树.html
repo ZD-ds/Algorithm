@@ -1,0 +1,107 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-02-14 13:24:30
+ * @LastEditTime : 2020-02-16 15:14:15
+ * @LastEditors  : Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \二叉树\从中序与后序遍历序列构造二叉树.html
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+    根据一棵树的中序遍历与后序遍历构造二叉树。
+    注意:
+    你可以假设树中没有重复的元素。
+    例如，给出
+    中序遍历 inorder = [9,3,15,20,7]
+    后序遍历 postorder = [9,15,7,20,3]
+    返回如下的二叉树：
+
+         3
+        / \
+       9  20
+             \
+               8
+ 9,3,20,8
+ 9,8,20,3 
+   */
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val) {
+     *     this.val = val;
+     *     this.left = this.right = null;
+     * }
+     */
+    /**
+     *战胜了60%的提交率
+     * @param {number[]} inorder
+     * @param {number[]} postorder
+     * @return {TreeNode}
+     */
+    function TreeNode(val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+    var buildTree = function (inorder, postorder) {
+        if (inorder.length == 1) {
+            return new TreeNode(inorder[0]);
+        }
+        if (inorder.length == 0) {
+            return null;
+        }
+        let temp = postorder[postorder.length - 1];
+        let root = new TreeNode(temp);
+        // 获得中序排列的位置
+        let index = inorder.indexOf(temp);
+        //获得中序遍历节点index,可以知道左子树的数量
+        let leftposttemp = postorder.slice(0, index);
+        let leftintemp = inorder.slice(0, index);
+        // 右子树的数量
+        let rightposttemp = postorder.slice(index, postorder.length - 1);
+        let rightintemp = inorder.slice(index + 1);
+        root.left = buildTree(leftintemp, leftposttemp);
+        root.right = buildTree(rightintemp, rightposttemp);
+        return root;
+    };
+    console.log(buildTree([9, 3, 15, 20, 7], [9, 15, 7, 20, 3]));
+</script>
+<script>
+    // leetcode最佳代码
+    var buildTree = function (inorder, postorder) {
+        let inorderDic = {};
+        inorder.forEach((e, index) => {
+            inorderDic[e] = index;
+        });
+        buildTree.inorderDic = inorderDic;
+        buildTree.inorder = inorder;
+        buildTree.postorder = postorder;
+
+        return helper(0, inorder.length - 1, 0, postorder.length - 1);
+    };
+
+    function helper(is, ie, ps, pe) {
+        if (is > ie || ps > pe) return null;
+        let val = buildTree.postorder[pe];
+        let ri = buildTree.inorderDic[val];
+
+        let node = {
+            val,
+            left: helper(is, ri - 1, ps, ps + ri - is - 1),
+            right: helper(ri + 1, ie, ps + ri - is, pe - 1)
+        };
+        return node;
+    }
+</script>
+
+</html>

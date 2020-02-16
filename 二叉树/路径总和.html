@@ -1,0 +1,106 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-02-14 12:09:26
+ * @LastEditTime : 2020-02-14 13:21:19
+ * @LastEditors  : Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \二叉树\路径总和.html
+ -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body></body>
+  <script>
+    /**
+        给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和。
+        说明: 叶子节点是指没有子节点的节点。
+        示例: 
+        给定如下二叉树，以及目标和 sum = 22，
+
+              5
+             / \
+            4   8
+           /   / \
+          11  13  4
+         /  \      \
+        7    2      1
+        返回 true, 因为存在目标和为 22 的根节点到叶子节点的路径 5->4->11->2。
+    */
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val) {
+     *     this.val = val;
+     *     this.left = this.right = null;
+     * }
+     */
+    /**
+     * @des 超越98%的算法
+     * @param {TreeNode} root
+     * @param {number} sum
+     * @return {boolean}
+     */
+    var hasPathSum = function(root, sum) {
+      if (!root) {
+        return false;
+      }
+      // 如果根节点的值大于sum
+      //   if (root.val > sum) {
+      //     return false;
+      //   }
+      if (root.val == sum && (root.left || root.right)) {
+        return false;
+      }
+      if (root.val == sum && !root.left && !root.right) {
+        return true;
+      }
+      return dfs(root, 0, sum);
+    };
+
+    function dfs(root, now, sum) {
+      if (!root) {
+        return false;
+      }
+      if (!root.left && !root.right) {
+        return now + root.val == sum;
+      }
+      //   if (root.val + now > sum) {
+      //     return false;
+      //   }
+      if (dfs(root.left, now + root.val, sum)) {
+        return true;
+      }
+      if (dfs(root.right, now + root.val, sum)) {
+        return true;
+      }
+      return false;
+    }
+  </script>
+  <script>
+    /**
+     *最优解
+     */
+    var hasPathSum = function(root, sum) {
+      if (root === null) return false;
+      let result = [];
+      var fn = function(cNode, parentVal) {
+        if (!cNode.left && !cNode.right) {
+          result.push(cNode.val + parentVal);
+        }
+        if (cNode.left) {
+          fn(cNode.left, cNode.val + parentVal);
+        }
+        if (cNode.right) {
+          fn(cNode.right, cNode.val + parentVal);
+        }
+      };
+      fn(root, 0);
+      let isTrue = false;
+      return result.indexOf(sum) > -1;
+    };
+  </script>
+</html>
