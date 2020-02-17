@@ -1,0 +1,91 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-02-17 22:36:16
+ * @LastEditTime: 2020-02-17 22:55:20
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \链表\移除链表元素.html
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+删除链表中等于给定值 val 的所有节点。
+
+示例:
+
+输入: 1->2->6->3->4->5->6, val = 6
+输出: 1->2->3->4->5
+*/
+    /**
+     * Definition for singly-linked list.
+     * function ListNode(val) {
+     *     this.val = val;
+     *     this.next = null;
+     * }
+     */
+    /**
+     * @des 战胜34%
+     * @param {ListNode} head
+     * @param {number} val
+     * @return {ListNode}
+     */
+    var removeElements = function (head, val) {
+        var pre = null;
+        var node = head;
+        while (node) {
+            if (node.val == val) {
+                if (!pre) {
+                    head = head.next;
+                    node = node.next;
+                } else {
+                    let temp = node.next;
+                    node.next = null;
+                    pre.next = temp;
+                    node = temp;
+                }
+            } else {
+                pre = node;
+                node = node.next;
+            }
+        }
+
+        return head;
+    };
+</script>
+<script>
+    // leetcode上最佳解答
+    var removeElements = function (head, val) {
+        if (!head) return null;
+
+        let current = head;
+        let previous = null;
+
+        while (current) {
+            if (current.val === val) {
+                if (previous) {
+                    previous.next = current.next;
+                } else {
+                    head = current.next;
+                }
+            } else {
+                previous = current;
+            }
+            current = current.next;
+        }
+
+        return head;
+    };
+</script>
+
+</html>
