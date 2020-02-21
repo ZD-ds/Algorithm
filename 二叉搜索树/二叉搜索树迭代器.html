@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-02-19 21:51:17
- * @LastEditTime: 2020-02-20 16:57:28
+ * @LastEditTime: 2020-02-20 23:39:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edith
  * @FilePath: \Algorithm\二叉搜索树\二叉搜索树迭代器.html
@@ -59,24 +59,22 @@ next() 和 hasNext() 操作的时间复杂度是 O(1)，并使用 O(h) 内存，
      * @param {TreeNode} root
      */
     var BSTIterator = function (root) {
-        var tack = [root];
-    var res = [];
-    var node = null;
-    while (tack.length != 0) {
-      while (node.left != null) {
-        tack.push(node.left);
-        node = node.left;
-      }
-      while (!node.right) {
-        res.push(tack.pop().val);
-        node = tack[tack.length - 1];
-      }
-      res.push(tack.pop().val);
-      tack.push(node.right);
-      node = node.right;
-    }
-    this.res=res;
-    this.index=0;
+        var result = [];
+        var st = [];
+        var p = root;
+        while (p || st.length != 0) {
+            while (p) //将二叉树左结点全部入栈
+            {
+                st.push(p);
+                p = p.left;
+            }
+            p = st[st.length - 1]; //取出栈顶结点，即二叉树最左结点
+            st.pop();
+            result.push(p.val);
+            p = p.right; //同样方式遍历结点右树
+        }
+        this.res = result;
+        this.index = 0;
     };
 
     /**
@@ -84,8 +82,8 @@ next() 和 hasNext() 操作的时间复杂度是 O(1)，并使用 O(h) 内存，
      * @return {number}
      */
     BSTIterator.prototype.next = function () {
-        if(this.index<this.res.length){
-            return this.res[index++];
+        if (this.index < this.res.length) {
+            return this.res[this.index++];
         }
     };
 
@@ -94,7 +92,7 @@ next() 和 hasNext() 操作的时间复杂度是 O(1)，并使用 O(h) 内存，
      * @return {boolean}
      */
     BSTIterator.prototype.hasNext = function () {
-        return this.index<this.res.length;
+        return this.index < this.res.length;
     };
 
     /** 
