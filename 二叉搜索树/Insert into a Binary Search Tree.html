@@ -92,14 +92,14 @@
       while (true) {
         if (val > node.val) {
           if (!node.right) {
-            node.right = val;
+            node.right = new TreeNode(val);
             break;
           } else {
             node = node.right;
           }
         } else {
           if (!node.left) {
-            node.left = val;
+            node.left = new TreeNode(val);
             break;
           } else {
             node = node.left;
