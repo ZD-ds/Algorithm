@@ -1,0 +1,172 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-02-23 23:01:24
+ * @LastEditTime: 2020-02-24 23:43:27
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edithtml
+ * @FilePath: \二叉搜索树\Kth Largest Element in a Stream.html
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body></body>
+<script>
+    /**
+    设计一个找到数据流中第K大元素的类（class）。注意是排序后的第K大元素，不是第K个不同的元素。
+
+    你的 KthLargest 类需要一个同时接收整数 k 和整数数组nums 的构造器，它包含数据流中的初始元素。每次调用 KthLargest.add，返回当前数据流中第K大的元素。
+
+    示例:
+
+    int k = 3;
+    int[] arr = [4,5,8,2];
+    KthLargest kthLargest = new KthLargest(3, arr);
+    kthLargest.add(3);   // returns 4
+    kthLargest.add(5);   // returns 5
+    kthLargest.add(10);  // returns 5
+    kthLargest.add(9);   // returns 8
+    kthLargest.add(4);   // returns 8
+    说明:
+    你可以假设 nums 的长度≥ k-1 且k ≥ 1。
+    */
+    /**
+     * // 战胜21%
+     * 思路就是最大k要不再二叉搜索树最右一坨，要不左子树，要不自己的root节点上
+     * @param {number} k
+     * @param {number[]} nums
+     */
+    var KthLargest = function (k, nums) {
+        var root = null;
+        if (nums.length == 0) {
+            root = null;
+        } else {
+            root = new TreeNode(nums[0]);
+            for (var i = 1; i < nums.length; i++) {
+                insertTree(root, nums[i]);
+            }
+        }
+
+        this.root = root;
+        this.k = k;
+    };
+
+    /**
+     * @param {number} val
+     * @return {number}
+     */
+    KthLargest.prototype.add = function (val) {
+        if (this.root) {
+            insertTree(this.root, val);
+        } else {
+            this.root = new TreeNode(val);
+        }
+        return getKthMax(this.root, this.k);
+    };
+
+    function TreeNode(val) {
+        this.val = val;
+        this.count = 1;
+        this.left = this.right = null;
+    }
+
+    function insertTree(root, val) {
+        var node = root;
+        while (true) {
+            node.count++;
+            if (val > node.val) {
+                if (node.right == null) {
+                    node.right = new TreeNode(val);
+                    break;
+                } else {
+                    node = node.right;
+                }
+            } else if (val < node.val) {
+                if (node.left == null) {
+                    node.left = new TreeNode(val);
+                    break;
+                } else {
+                    node = node.left;
+                }
+            } else {
+                return root;
+            }
+        }
+        return root;
+    }
+
+    function getKthMax(root, k) {
+        // 在这棵树里
+        if (root.count > k) {
+            // 如果没有左右节点
+
+            if (!root.left && !root.right) {
+                return root.val;
+            }
+            var rightcount = root.right ? root.right.count : 0;
+            var leftcount = root.left ? root.left.count : 0;
+            var rootcount = root.count - rightcount - leftcount;
+            if (k <= rightcount) {
+                return getKthMax(root.right, k);
+            } else if (k > rightcount && k <= rightcount + rootcount) {
+                return root.val;
+            } else {
+                return getKthMax(root.left, k - rootcount - rightcount);
+            }
+        } else if (root.count == k) {
+            return getMin(root);
+        } else {
+            return null;
+        }
+    }
+
+    function getMin(root) {
+        while (root.left) {
+            root = root.left;
+        }
+        return root.val;
+    }
+    /**
+     * Your KthLargest object will be instantiated and called as such:
+     * var obj = new KthLargest(k, nums)
+     * var param_1 = obj.add(val)
+     */
+    var k = 7;
+    var arr = [-10, 1, 3, 1, 4, 10, 3, 9, 4, 5, 1];
+    var kthLargest = new KthLargest(k, arr);
+    console.log(kthLargest.add(3)); // returns 4
+    console.log(kthLargest.add(2)); // returns 5
+    kthLargest.add(3); // returns 5
+    kthLargest.add(1); // returns 8
+    kthLargest.add(2); // returns 8
+    kthLargest.add(4);
+    kthLargest.add(5);
+    kthLargest.add(5);
+    kthLargest.add(6);
+    kthLargest.add(7);
+    kthLargest.add(7);
+    kthLargest.add(8);
+    kthLargest.add(2);
+    kthLargest.add(3);
+    kthLargest.add(1);
+    kthLargest.add(1);
+    console.log(kthLargest.add(1));
+    console.log(kthLargest.add(10));
+    console.log(kthLargest.add(11));
+    kthLargest.add(5);
+    kthLargest.add(6);
+    kthLargest.add(2);
+    kthLargest.add(4);
+    kthLargest.add(7);
+    kthLargest.add(8);
+    kthLargest.add(5);
+    kthLargest.add(6);
+    console.log(kthLargest);
+</script>
+
+</html>
