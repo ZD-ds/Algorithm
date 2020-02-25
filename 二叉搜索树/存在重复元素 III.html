@@ -1,0 +1,117 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-02-25 09:11:53
+ * @LastEditTime: 2020-02-25 23:11:36
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \二叉搜索树\存在重复元素 III.html
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+给定一个整数数组，判断数组中是否有两个不同的索引 i 和 j，使得 nums [i] 和 nums [j] 的差的绝对值最大为 t，并且 i 和 j 之间的差的绝对值最大为 ķ。
+
+示例 1:
+
+输入: nums = [1,2,3,1], k = 3, t = 0
+输出: true
+示例 2:
+
+输入: nums = [1,0,1,1], k = 1, t = 2
+输出: true
+示例 3:
+
+输入: nums = [1,5,9,1,5,9], k = 2, t = 3·
+输出: false
+*/
+    /**
+     * @param {number[]} nums
+     * @param {number} k
+     * @param {number} t
+     * @return {boolean}
+     */
+    // var containsNearbyAlmostDuplicate = function (nums, k, t) {
+    //     var root = null;
+    //     for (var i = 0; i < nums.length - 1; i++) {
+    //         for (var j = i + 1; j < nums.length; j++) {
+    //             if (j - i <= k) {
+    //                 var abs = (nums[i] - nums[j]) >= 0 ? (nums[i] - nums[j]) : (nums[j] - nums[i]);
+    //                 if (root) {
+    //                     insertTree(root, abs);
+    //                 } else {
+    //                     root = new TreeNode(val);
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return getMax(root) <= t;
+    // };
+
+    // function insertTree(root, val) {
+    //     var node = root;
+    //     while (true) {
+    //         if (val > node.val) {
+    //             if (!node.right) {
+    //                 node.right = new TreeNode(val);
+    //                 break;
+    //             } else {
+    //                 node = node.right;
+    //             }
+    //         } else {
+    //             if (!node.left) {
+    //                 node.left = new TreeNode(val);
+    //                 break;
+    //             } else {
+    //                 node = node.left;
+    //             }
+    //         }
+    //     }
+    //     return root;
+    // }
+
+    // function getMax(root) {
+    //     while (root.right) {
+    //         root = root.right;
+    //     }
+    //     return root.val;
+    // }
+    var containsNearbyAlmostDuplicate = function (nums, k, t) {
+        if (k < 0 || t < 0) return false;
+
+        // 存储桶号对应的值
+        const map = new Map();
+
+        for (let i = 0; i < nums.length; i++) {
+            // 桶号
+            const key = Math.floor(nums[i] / (t + 1));
+
+            if (map.has(key)) {
+                return true;
+            } else if (map.has(key + 1)) {
+                if (Math.abs(nums[i] - map.get(key + 1)) <= t) return true;
+            } else if (map.has(key - 1)) {
+                if (Math.abs(nums[i] - map.get(key - 1)) <= t) return true;
+            }
+
+            map.set(key, nums[i]);
+
+            // 从第一个值对应的桶开始删除
+            if (i >= k) map.has(nums[i - k]) && map.delete(Math.floor(nums[i - k] / (t + 1)));
+        }
+
+        return false;
+    };
+</script>
+
+</html>
