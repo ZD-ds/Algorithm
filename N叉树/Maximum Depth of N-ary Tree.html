@@ -1,24 +1,21 @@
 <!--
  * @Author: your name
  * @Date: 2020-02-26 22:17:44
- * @LastEditTime: 2020-02-26 22:47:00
+ * @LastEditTime: 2020-02-27 14:59:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \Algorithm\N叉树\Maximum Depth of N-ary Tree.html
  -->
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
-
-</body>
-<script>
+  <body></body>
+  <script>
     /**
 给定一个 N 叉树，找到其最大深度。
 
@@ -51,19 +48,18 @@
      * @param {Node} root
      * @return {number}
      */
-    var maxDepth = function (root) {
-        if (!root) {
-            return 0;
+    var maxDepth = function(root) {
+      if (!root) {
+        return 0;
+      }
+      var max = 0;
+      for (var i = 0; i < root.children.length; i++) {
+        let temp = maxDepth(root.children[i]);
+        if (max < temp) {
+          max = temp;
         }
-        var max = 0;
-        for (var i = 0; i < root.children.length; i++) {
-            let temp = maxDepth(root.children[i])
-            if (max < temp) {
-                max = temp;
-            }
-        }
-        return max + 1;
+      }
+      return max + 1;
     };
-</script>
-
+  </script>
 </html>
