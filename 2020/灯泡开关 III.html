@@ -1,0 +1,45 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-03-08 10:38:43
+ * @LastEditTime: 2020-03-08 11:13:01
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edithtml
+ * @FilePath: \2020\灯泡开关 III.html
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+     * @param {number[]} light
+     * @return {number}
+     */
+    var numTimesAllBlue = function (light) {
+        if (light.length == 0) {
+            return 0;
+        }
+        var num = 0;
+        outer: for (var i = 0; i < light.length; i++) {
+            for (var j = 0; j < light[i]; j++) {
+                if (light[i] < light[j]) {
+                    continue outer;
+                }
+            }
+            num++;
+        }
+        return num;
+
+    };
+    console.log(numTimesAllBlue([3, 2, 4, 1, 5]));
+</script>
+
+</html>

@@ -1,0 +1,73 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-03-08 11:05:58
+ * @LastEditTime: 2020-03-08 12:43:08
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \2020\通知所有员工所需的时间.html
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+     * @param {number} n
+     * @param {number} headID
+     * @param {number[]} manager
+     * @param {number[]} informTime
+     * @return {number}
+     */
+
+    var numOfMinutes = function (n, headID, manager, informTime) {
+        var cache = [];
+        for (var i = 0; i < n; i++) {
+            cache[i] = 0;
+        }
+        var map = new Map();
+        for (let index = 0; index < manager.length; index++) {
+            if (map.get(manager[index])) {
+                map.get(manager[index]).push(index);
+            } else {
+                map.set(manager[index], [index]);
+            }
+        }
+        return getMax(n, headID, map, informTime, cache);
+    };
+
+    var getMax = function (n, headID, manager, informTime, cache) {
+        if (informTime[headID] == 0) {
+            return 0;
+        }
+        var max = 0;
+        var sub = manager.get(headID);
+        sub.forEach((ele) => {
+
+            var temp = null;
+            if (cache[ele]) {
+                temp = cache[ele];
+            } else {
+                temp = getMax(n, ele, manager, informTime, cache);
+                cache[ele] = temp;
+            }
+
+            if (temp > max) {
+                max = temp;
+            }
+        });
+        return max + informTime[headID];
+    }
+    console.log(numOfMinutes(15, 0, [-1, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6], [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+        0, 0, 0
+    ]));
+</script>
+
+</html>

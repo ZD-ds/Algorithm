@@ -1,0 +1,52 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-03-08 10:11:46
+ * @LastEditTime: 2020-03-08 10:37:49
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \2020\index.html
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+     * @param {number} n
+     * @return {string}
+     */
+    var generateTheString = function (n) {
+        if (n == 1) {
+            return "x";
+        }
+        var res = "";
+        // 如果为偶数可以拆分为两个奇数
+        if (n % 2 == 0) {
+            for (var i = 1; i <= n - 1; i++) {
+                res += "x";
+            }
+            res += "y";
+            return res;
+        } else {
+            // 如果为奇数那么拆分之后变偶数处理
+            res += "z";
+            for (var i = 1; i <= n - 2; i++) {
+                res += "x";
+            }
+            res += "y";
+            return res;
+        }
+    };
+    console.log(generateTheString(500));
+</script>
+
+</html>
