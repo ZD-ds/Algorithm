@@ -1,24 +1,21 @@
 <!--
  * @Author: your name
  * @Date: 2020-02-29 15:59:23
- * @LastEditTime: 2020-02-29 15:59:54
+ * @LastEditTime: 2020-03-10 14:40:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \2020\下一个排列.html
  -->
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
-
-</body>
-<script>
+  <body></body>
+  <script>
     /**
     实现获取下一个排列的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。
 
@@ -41,9 +38,46 @@
      * @param {number[]} nums
      * @return {void} Do not return anything, modify nums in-place instead.
      */
-    var nextPermutation = function (nums) {
-
+    var nextPermutation = function(nums) {
+      if (!nums || nums.length == 0) {
+        return [];
+      }
+      if (nums.length == 1) {
+        return nums;
+      }
+      var temp = null;
+      for (var i = nums.length - 2; i >= 0; i--) {
+        if (nums[i] < nums[i + 1]) {
+          temp = i;
+          break;
+        }
+      }
+      if (temp == null) {
+        return nums.reverse();
+      }
+      for (var k = nums.length - 1; k >= i + 1; k--) {
+        if (nums[k] > nums[i]) {
+          swap(nums, k, i);
+          break;
+        }
+      }
+      for (var j = i + 1; j <= nums.length; j++) {
+        if (nums[j] < nums[j + 1]) {
+          swap(nums, j, j + 1);
+        } else {
+          break;
+        }
+      }
+      for (var k = nums.length - 1; k >= Math.floor(nums.length + i) / 2; k--) {
+        swap(nums, k, nums.length + i - k);
+      }
+      return nums;
     };
-</script>
-
+    function swap(arr, i, j) {
+      var temp = arr[i];
+      arr[i] = arr[j];
+      arr[j] = temp;
+    }
+    console.log(nextPermutation([1, 3, 2]));
+  </script>
 </html>
