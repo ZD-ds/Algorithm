@@ -1,0 +1,109 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-03-19 12:43:00
+ * @LastEditTime: 2020-03-19 13:42:33
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \Algorithm\每日一题\最长回文串.html
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+给定一个包含大写字母和小写字母的字符串，找到通过这些字母构造成的最长的回文串。
+
+在构造过程中，请注意区分大小写。比如 "Aa" 不能当做一个回文字符串。
+
+注意:
+假设字符串的长度不会超过 1010。
+
+示例 1:
+
+输入:
+"abccccdd"
+
+输出:
+7
+
+解释:
+我们可以构造的最长的回文串是"dccaccd", 它的长度是 7。
+*/
+    /**
+     * @param {string} s
+     * @return {number}
+     */
+    // 我这是找最长回文串弄错题意了
+    var longestPalindrome = function (s) {
+        if (s.length == 0) {
+            return 0;
+        }
+        var max = 1;
+        for (var i = 1; i < s.length - 1; i++) {
+            var res = 1;
+            // 假设这个是对于整个带个回文的中心
+            var j = i - 1,
+                k = i + 1;
+            while (j >= 0 && k < s.length && s[j] == s[k]) {
+                j--;
+                k++;
+                res += 2;
+            }
+            if (res > max) {
+                max = res;
+            }
+            // 假设这个是整个偶数回文的左边
+            k = i + 1;
+            j = i - 1;
+            res = 1;
+            if (s[k] == s[i]) {
+                k++;
+                res++;
+                while (j >= 0 && k < s.length && s[j] == s[k]) {
+                    j--;
+                    k++;
+                    res += 2;
+                }
+                if (res > max) {
+                    max = res;
+                }
+            }
+        }
+        return max;
+    };
+    console.log(longestPalindrome("dccaccd"));
+    // 正确的解法
+    /**
+     * @param {string} s
+     * @return {number}
+     */
+    var longestPalindrome = function (s) {
+        const sArray = s.split('');
+        const temp = {};
+        let count = 0;
+        sArray.forEach(item => {
+            if (temp[item]) {
+                count += 2;
+                temp[item] = undefined;
+            } else {
+                temp[item] = 1;
+            }
+        })
+        const keys = Object.keys(temp);
+        if (keys.some(key => temp[key] === 1)) {
+            count += 1;
+        }
+        return count;
+    };
+</script>
+
+</html>

@@ -1,0 +1,140 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-03-21 11:54:57
+ * @LastEditTime: 2020-03-21 22:13:02
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \Algorithm\每日一题\365. 水壶问题.html
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+ * 有两个容量分别为 x升 和 y升 的水壶以及无限多的水。请判断能否通过使用这两个水壶，从而可以得到恰好 z升 的水？
+
+如果可以，最后请用以上水壶中的一或两个来盛放取得的 z升 水。
+
+你允许：
+
+装满任意一个水壶
+清空任意一个水壶
+从一个水壶向另外一个水壶倒水，直到装满或者倒空
+示例 1: (From the famous "Die Hard" example)
+
+输入: x = 3, y = 5, z = 4
+输出: True
+示例 2:
+
+输入: x = 2, y = 6, z = 5
+输出: False
+ * 
+*/
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @param {number} z
+     * @return {boolean}
+     */
+    var canMeasureWater = function (x, y, z) {
+        var map = new Map();
+        if (z == 0) {
+            return true;
+        }
+        var arr = [
+            [0, 0]
+        ]
+        while (arr.length != 0) {
+            var temp = [];
+            for (var i = 0; i < arr.length; i++) {
+                map.set(arr[i][0] + "+" + arr[i][1], true);
+                // x被清空
+                if (!map.get("0+" + arr[i][1])) {
+                    if (arr[i][1] == z) {
+                        return true;
+                    }
+                    temp.push([0, arr[i][1]]);
+                }
+                // x 被充满
+                if (!map.get(x + "+" + arr[i][1])) {
+                    if (arr[i][1] + x == z) {
+                        return true;
+                    }
+                    temp.push([x, arr[i][1]]);
+                }
+                // y被清空
+                if (!map.get(arr[i][0] + "+0")) {
+                    if (arr[i][0] == z) {
+                        return true;
+                    }
+                    temp.push([arr[i][0], 0]);
+                }
+                // y被充满
+                if (!map.get(arr[i][0] + "+" + y)) {
+                    if (arr[i][0] + y == z) {
+                        return true;
+                    }
+                    temp.push([arr[i][0], y]);
+                }
+                // x导入y
+                var tempy = null;
+                var tempx = null;
+                if (arr[i][1] + arr[i][0] >= y) {
+                    tempy = y;
+                    tempx = arr[i][1] + arr[i][0] - y;
+                } else {
+                    tempy = arr[i][1] + arr[i][0];
+                    tempx = 0;
+                }
+                if (!map.get(tempx + "+" + tempy)) {
+                    if (tempy + tempx == z) {
+                        return true;
+                    }
+                    temp.push([tempx, tempy]);
+                }
+                // y导入x
+                if (arr[i][1] + arr[i][0] >= x) {
+                    tempx = x;
+                    tempy = arr[i][1] + arr[i][0] - x;
+                } else {
+                    tempx = arr[i][1] + arr[i][0];
+                    tempy = 0;
+                }
+                if (!map.get(tempx + "+" + tempy)) {
+                    if (tempx + tempy == z) {
+                        return true;
+                    }
+                    temp.push([tempx, tempy]);
+                }
+
+            }
+            arr = temp;
+        }
+        return false;
+    };
+    console.log(canMeasureWater(2, 6, 5));
+</script>
+<script>
+    // https://leetcode-cn.com/problems/water-and-jug-problem/solution/shui-hu-wen-ti-by-leetcode-solution/
+    var canMeasureWater = function (x, y, z) {
+        if (z === 0) return true;
+        if (x + y < z) return false;
+
+        function gcd(a, b) {
+            return b ? gcd(b, a % b) : a;
+        }
+        const d = gcd(x, y);
+        return z % d === 0;
+    };
+</script>
+
+</html>

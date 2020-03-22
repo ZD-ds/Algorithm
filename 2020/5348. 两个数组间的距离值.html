@@ -1,0 +1,43 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-03-21 22:30:21
+ * @LastEditTime: 2020-03-21 22:40:09
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \Algorithm\2020\5348. 两个数组间的距离值.html
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+     * @param {number[]} arr1
+     * @param {number[]} arr2
+     * @param {number} d
+     * @return {number}
+     */
+    var findTheDistanceValue = function (arr1, arr2, d) {
+        var res = 0;
+        outer: for (var i = 0; i < arr1.length; i++) {
+            for (var j = 0; j < arr2.length; j++) {
+                if (Math.abs(arr1[i] - arr2[j]) <= d) {
+                    continue outer;
+                }
+            }
+            res++;
+        }
+        return res;
+    };
+    console.log(findTheDistanceValue([22], [123], -1));
+</script>
+
+</html>
