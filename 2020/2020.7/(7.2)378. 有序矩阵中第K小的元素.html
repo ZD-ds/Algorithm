@@ -1,0 +1,79 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-07-02 10:09:07
+ * @LastEditTime: 2020-07-02 17:13:16
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /github/Algorithm/2020/2020.7/(7.2)378. 有序矩阵中第K小的元素.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    /**
+        378. 有序矩阵中第K小的元素
+难度
+中等
+
+316
+
+收藏
+
+分享
+切换为英文
+关注
+反馈
+给定一个 n x n 矩阵，其中每行和每列元素均按升序排序，找到矩阵中第 k 小的元素。
+请注意，它是排序后的第 k 小元素，而不是第 k 个不同的元素。
+
+ 
+
+示例：
+
+matrix = [
+   [ 1,  5,  9],
+   [10, 11, 13],
+   [12, 13, 15]
+],
+k = 8,
+
+返回 13。
+      */
+    /**
+     * @param {number[][]} matrix
+     * @param {number} k
+     * @return {number}
+     */
+    // 使用二分法
+    var kthSmallest = function (matrix, k) {
+      let len = matrix.length;
+      let min = matrix[0][0];
+      let max = matrix[len - 1][len - 1];
+
+      while (min < max) {
+        let mid = Math.floor((min + max) / 2);
+        let count = 0;
+        for (let i = 0; i < len; i += 1) {
+          let j = len - 1;
+          while (j >= 0 && matrix[i][j] > mid) {
+            j -= 1;
+          }
+          count += j + 1;
+        }
+
+        if (count < k) {
+          min = mid + 1;
+        } else {
+          max = mid;
+        }
+      }
+
+      return min;
+    };
+  </script>
+</html>

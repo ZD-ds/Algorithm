@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    /**
+        给两个整数数组 A 和 B ，返回两个数组中公共的、长度最长的子数组的长度。
+
+        示例 1:
+
+        输入:
+        A: [1,2,3,2,1]
+        B: [3,2,1,4,7]
+        输出: 3
+        解释:
+        长度最长的公共子数组是 [3, 2, 1]。
+        说明:
+
+        1 <= len(A), len(B) <= 1000
+        0 <= A[i], B[i] < 100
+
+
+        来源：力扣（LeetCode）
+        链接：https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray
+        著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+    */
+    /**
+     * @param {number[]} A
+     * @param {number[]} B
+     * @return {number}
+     */
+    // 这种方法结果超过5%的人
+
+    var findLength = function (A, B) {
+      if (A.length == 0 || B.length == 0) {
+        return 0;
+      }
+      var maxlength = 0;
+      var addressMap = new Map();
+      // 判断长度使用使用长的作为长尺
+      let C = A.length > B.length ? A : B;
+      let D = A.length > B.length ? B : A;
+      // 开始给map对象赋值
+      for (var i = 0; i < C.length; i++) {
+        if (addressMap.get(C[i])) {
+          addressMap.get(C[i]).push(i);
+        } else {
+          addressMap.set(C[i], [i]);
+        }
+      }
+      // 开始短的对比
+      for (i = 0; i < D.length; i++) {
+        var addressArr = addressMap.get(D[i]);
+        if (!addressArr) {
+          continue;
+        }
+        for (var j = 0; j < addressArr.length; j++) {
+          var tempD = i,
+            tempB = addressArr[j];
+          var maxlengthTemp = 0;
+          while (tempD < D.length && tempB < C.length && D[tempD] == C[tempB]) {
+            tempD++;
+            tempB++;
+            maxlengthTemp++;
+          }
+          if (maxlengthTemp > maxlength) {
+            maxlength = maxlengthTemp;
+          }
+        }
+      }
+      return maxlength;
+    };
+    console.log(findLength([3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3]));
+    // 最快的速度
+    /**
+     * @param {number[]} A
+     * @param {number[]} B
+     * @return {number}
+     */
+
+    /**
+     * @description:
+     * 这样我们就可以提出动态规划的解法：
+     * 令 dp[i][j] 表示 A[i:] 和 B[j:] 的最长公共前缀，那么答案即为所有 dp[i][j] 中的最大值。如果 A[i] == B[j]，那么 dp[i][j] = dp[i + 1][j + 1] + 1，否则 dp[i][j] = 0。
+     * @param {type}
+     * @return:
+     */
+
+    var findLength = function (A, B) {
+      var hash = new Array(A.length + 1).fill(0);
+      var max = 0;
+      var al = A.length;
+      var bl = B.length;
+
+      for (var i = 0; i < al; i++) {
+        for (var j = bl - 1; j >= 0; j--) {
+          if (A[i] === B[j]) {
+            hash[j + 1] = hash[j] + 1;
+            max = hash[j + 1] > max ? hash[j + 1] : max;
+          } else {
+            hash[j + 1] = 0;
+          }
+        }
+      }
+
+      return max;
+    };
+  </script>
+</html>
