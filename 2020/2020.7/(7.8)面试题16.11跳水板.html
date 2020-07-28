@@ -1,0 +1,61 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-07-08 18:42:52
+ * @LastEditTime: 2020-07-09 10:49:07
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /github/Algorithm/2020/2020.7/(7.8)面试题16.11跳水板.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    /**
+        你正在使用一堆木板建造跳水板。有两种类型的木板，其中长度较短的木板长度为shorter，长度较长的木板长度为longer。你必须正好使用k块木板。编写一个方法，生成跳水板所有可能的长度。
+
+返回的长度需要从小到大排列。
+
+示例：
+
+输入：
+shorter = 1
+longer = 2
+k = 3
+输出： {3,4,5,6}
+提示：
+
+0 < shorter <= longer
+0 <= k <= 100000
+通过次数26,561提交次数58,946
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/diving-board-lcci
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+      */
+    /**
+     * @param {number} shorter
+     * @param {number} longer
+     * @param {number} k
+     * @return {number[]}
+     */
+    var divingBoard = function (shorter, longer, k) {
+      if (k == 0) {
+        return [];
+      }
+      var res = [shorter * k];
+      var t = longer - shorter;
+      if (t == 0) {
+        return res;
+      }
+      for (var i = 0; i < k; i++) {
+        res.push(res[res.length - 1] + t);
+      }
+      return res;
+    };
+  </script>
+</html>

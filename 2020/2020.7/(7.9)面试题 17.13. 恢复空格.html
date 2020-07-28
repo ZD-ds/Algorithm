@@ -1,0 +1,151 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-07-09 01:08:33
+ * @LastEditTime: 2020-07-28 17:36:53
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /github/Algorithm/2020/2020.7/(7.9)面试题 17.13. 恢复空格.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    /**
+            哦，不！你不小心把一个长篇文章中的空格、标点都删掉了，并且大写也弄成了小写。像句子"I reset the computer. It still didn’t boot!"已经变成了"iresetthecomputeritstilldidntboot"。在处理标点符号和大小写之前，你得先把它断成词语。当然了，你有一本厚厚的词典dictionary，不过，有些词没在词典里。假设文章用sentence表示，设计一个算法，把文章断开，要求未识别的字符最少，返回未识别的字符数。
+
+    注意：本题相对原题稍作改动，只需返回未识别的字符数
+
+     
+
+    示例：
+
+    输入：
+    dictionary = ["looked","just","like","her","brother"]
+    sentence = "jesslookedjustliketimherbrother"
+    输出： 7
+    解释： 断句后为"jess looked just like tim her brother"，共7个未识别字符。
+    提示：
+
+    0 <= len(sentence) <= 1000
+    dictionary中总字符数不超过 150000。
+    你可以认为dictionary和sentence中只包含小写字母。
+    通过次数1,833提交次数3,426
+
+    来源：力扣（LeetCode）
+    链接：https://leetcode-cn.com/problems/re-space-lcci
+    著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+          */
+    /**
+     * @param {string[]} dictionary
+     * @param {string} sentence
+     * @return {number}
+     */
+
+    //dp加上字典树
+    var respace = function (dictionary, sentence) {
+      let cache = [];
+      for (let j = 0; j < sentence.length + 1; j++) {
+        cache.push(new Map());
+      }
+      let dp = new Array(sentence.length + 1).fill(0);
+      let trie = {};
+      let n = sentence.length;
+      if (sentence === "") return 0;
+      for (let word of dictionary) {
+        let node = trie;
+        for (let c of word) {
+          if (node[c] == undefined) {
+            node[c] = {};
+          }
+          node = node[c];
+        }
+        node["#"] = "#";
+      }
+      // 预处理出字典中存在的所有下标区间 cache[j].get[k] == true 表示[k,j]区间的单词在字典中能找到。
+      for (let i = 1; i <= n; i++) {
+        let node = trie;
+        for (let j = i; j <= n; j++) {
+          let c = sentence[j - 1];
+          if (!node[c]) {
+            break;
+          }
+          node = node[c];
+          if (node["#"] != undefined) {
+            cache[j].set(i, true);
+          }
+        }
+      }
+      for (let j = 1; j <= n; j++) {
+        dp[j] = dp[j - 1] + 1;
+        for (let [k, v] of cache[j]) {
+          dp[j] = Math.min(dp[j], dp[k - 1]);
+        }
+      }
+      return dp[n];
+    };
+    console.log(
+      respace(
+        [
+          "bt",
+          "vbtbvtvvbbvtbvvbbbvbtbbv",
+          "bvvbbbvvvbvttbtbvtvtvvbttbbbtvvvb",
+          "btttbvbbbtbbtbvvttbvbvtvbtbbttb",
+          "bt",
+          "vvbvbvbvtbvbvvvvtv",
+          "tbvvvtttvtbvbtttvvbtvvvvtvvbvvtvvbbvbbbvb",
+          "v",
+          "bvb",
+          "vvtbvtvbttbttvvbvttbt",
+          "btbtbtttvbbtbttbtvvttbvtbtvtbvvtbbbb",
+          "bttbvbbttvvbtvvvvb",
+          "bvvbvbvttbvtbvvtbttvvvvtvbtvbttbbvvtvtvv",
+          "vbtttt",
+          "btbvbbbvbtvtbvvv",
+          "b",
+          "tbtbtv",
+          "vbvbbvvbvbbvvb",
+          "vbvvtvbvbvbttvbvbtvbtbtvtbvbbtb",
+          "bvvbvvttttttbtvvvttvbvtvvbvtbtvtbvttvvtbt",
+          "bvtbttv",
+          "bbbt",
+          "vtt",
+          "ttvv",
+          "b",
+          "vbb",
+          "vtvvbtttvtbbvvbbtbb",
+          "vvv",
+          "vvvvbbbtbbbvbbbb",
+          "ttvvbtvv",
+          "v",
+          "btvbbvtbbvbvtvttvvbbbtbvvvtbtb",
+          "vv",
+          "btbttbtbbvbvvbvttbttvtbbtbvtttvbbtbbtvtvvvvbbttvtvvbbbv",
+          "ttvbbbbttbtbtb",
+          "tvvbvbvvb",
+          "vv",
+          "ttbttvtvbtbbbbv",
+          "bvvvtbbvvvbtvbvtvtvvvvbb",
+          "vtbvvbvvvvvttvbbttbbvtvt",
+          "tbvbbt",
+          "b",
+          "v",
+          "tvbbtvvtvvtbtbttvvvb",
+          "tbttbttbbbtbtvtvtvtbbbvvtbbbvbbvvvbbttvvt",
+          "bbvttvtvvtbvbbttvbbtbvvttbvbvbtbvvvbbbvbvbvbtvbtvvvtvvtbttbttbbvbbbttvvvbvvtb",
+          "vttvvbvv",
+          "tbttbvvttvbtvvtbbvvv",
+          "bvbbbbbbbb",
+          "vtbvvtbbvtt",
+          "bvttbvvbvb",
+          "tvttttbbvvvbbtttvvv",
+        ],
+        "btbvtttttbvttbvvbbtvvbvbvvbtbtbtvbtttbvbbbtbbtbvvttbvbvtvbtbbttbvvbvbtttbvttbvvbbvvv"
+      )
+    );
+  </script>
+</html>

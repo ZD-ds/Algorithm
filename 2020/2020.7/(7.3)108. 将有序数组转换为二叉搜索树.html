@@ -1,0 +1,89 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-07-03 09:50:06
+ * @LastEditTime: 2020-07-03 10:14:51
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /github/Algorithm/2020/2020.7/(7.3)108. 将有序数组转换为二叉搜索树.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    /**
+        将一个按照升序排列的有序数组，转换为一棵高度平衡二叉搜索树。
+
+        本题中，一个高度平衡二叉树是指一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1。
+
+        示例:
+
+        给定有序数组: [-10,-3,0,5,9],
+
+        一个可能的答案是：[0,-3,9,-10,null,5]，它可以表示下面这个高度平衡二叉搜索树：
+
+            0
+            / \
+        -3   9
+        /   /
+        -10  5
+        通过次数80,375提交次数111,540
+
+        来源：力扣（LeetCode）
+        链接：https://leetcode-cn.com/problems/convert-sorted-array-to-binary-search-tree
+        著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+      */
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val) {
+     *     this.val = val;
+     *     this.left = this.right = null;
+     * }
+     */
+    /**
+     * @param {number[]} nums
+     * @return {TreeNode}
+     */
+    // 是要生成二叉搜索树，我以为是二叉平衡树
+    var sortedArrayToBST = function (nums) {
+      if (nums.length == 0) {
+        return null;
+      }
+      var head = new TreeNode(nums[0]);
+      nums.unshift();
+      var temp = [head];
+      while (nums.length != 0) {
+        var temparr = [];
+        for (var i = 0; i < temp.length; i++) {
+          temp[i].left = new TreeNode(nums[0]);
+          temparr.push(temp[i].left);
+          nums.unshift();
+          if (nums.length == 0) break;
+          temp[i].right = new TreeNode(nums[0]);
+          temparr.push(temp[i].right);
+          nums.unshift();
+          if (nums.length == 0) break;
+        }
+        temp = temparr;
+      }
+      return head;
+    };
+    function TreeNode(val) {
+      this.val = val;
+      this.left = this.right = null;
+    }
+    var sortedArrayToBST = function (nums) {
+      if (nums.length == 0) return null;
+      var mid = Math.floor(nums.length / 2);
+      var node = new TreeNode(nums[mid]);
+      node.left = sortedArrayToBST(nums.slice(0, mid));
+      node.right = sortedArrayToBST(nums.slice(mid + 1));
+      return node;
+    };
+    console.log(sortedArrayToBST([-10, -3, 0, 5, 9]));
+  </script>
+</html>
